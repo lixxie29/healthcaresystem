@@ -57,7 +57,7 @@ public class DoctorServiceImpl implements DoctorService{
         doctor.setPassword(encoder.encode(doctorDto.getPassword()));
 
         DoctorSpecialty specialty = doctorSpecialtyRepo.findById(doctorDto.getSpecialityId()).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
-
+        doctor.setSpecialty(specialty);
         doctorRepo.save(doctor);
     }
 

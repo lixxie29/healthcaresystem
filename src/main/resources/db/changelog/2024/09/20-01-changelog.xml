@@ -17,7 +17,6 @@
             <column name="patient_id" type="BIGINT"/>
             <column name="hospital_name" type="VARCHAR(255)"/>
         </createTable>
-        <!--        <addAutoIncrement tableName="appointment" columnName="id" columnDataType="BIGINT"/>-->
     </changeSet>
 
     <changeSet id="1726827690390-2" author="lixxie29">
@@ -34,7 +33,6 @@
             <column name="hospital_name" type="VARCHAR(255)"/>
             <column name="specialty_id" type="BIGINT"/>
         </createTable>
-        <!--        <addAutoIncrement tableName="doctor" columnName="id" columnDataType="BIGINT"/>-->
     </changeSet>
 
     <changeSet id="1726827690390-3" author="lixxie29">
@@ -44,7 +42,7 @@
             </column>
             <column name="name" type="VARCHAR(255)"/>
         </createTable>
-        <!--        <addAutoIncrement tableName="doctor_specialty" columnName="id" columnDataType="BIGINT"/>-->
+
     </changeSet>
 
     <changeSet id="1726827690390-4" author="lixxie29">
@@ -57,7 +55,6 @@
             <column name="description" type="VARCHAR(255)"/>
             <column name="dosage" type="VARCHAR(255)"/>
         </createTable>
-        <!--        <addAutoIncrement tableName="medication" columnName="id" columnDataType="BIGINT"/>-->
     </changeSet>
 
     <changeSet id="1726827690390-5" author="lixxie29">
@@ -83,7 +80,6 @@
             </column>
             <column name="gender" type="VARCHAR(255)"/>
         </createTable>
-        <!--        <addAutoIncrement tableName="patient" columnName="id" columnDataType="BIGINT"/>-->
     </changeSet>
 
     <changeSet id="1726827690390-7" author="lixxie29">
@@ -98,7 +94,6 @@
             </column>
             <column name="doctor_id" type="BIGINT"/>
         </createTable>
-        <!--        <addAutoIncrement tableName="prescription" columnName="id" columnDataType="BIGINT"/>-->
     </changeSet>
 
     <changeSet id="1726827690390-8" author="lixxie29">

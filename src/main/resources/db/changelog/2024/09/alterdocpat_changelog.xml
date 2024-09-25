@@ -8,7 +8,6 @@
         <addColumn tableName="doctor">
             <column name="email" type="VARCHAR(255)"/>
             <column name="password" type="VARCHAR(255)"/>
-            <column name="specialty" type="VARCHAR(255)"/>
         </addColumn>
 
         <addColumn tableName="patient">
@@ -25,15 +24,5 @@
             <column name="doctor" type="VARCHAR(255)"/>
         </addColumn>
     </changeSet>
-
-<!--    <changeSet id="456_1" author="lixxie29">-->
-<!--        <dropPrimaryKey tableName="doctor"/>-->
-<!--        <addColumn tableName="doctor">-->
-<!--            <column name="id" type="BIGINT" autoIncrement="true">-->
-<!--                <constraints nullable="false" primaryKey="true" unique="true"/>-->
-<!--            </column>-->
-<!--        </addColumn>-->
-<!--        <addAutoIncrement tableName="doctor" columnName="id" columnDataType="BIGINT"/>-->
-<!--    </changeSet>-->
 
 </databaseChangeLog>
