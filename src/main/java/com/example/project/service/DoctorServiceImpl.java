@@ -15,15 +15,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class DoctorServiceImpl implements DoctorService{
-//    @Autowired
-//    private final DoctorRepo doctorRepo;
-//    @Autowired
-//    private final PasswordEncoder encoder = new BCryptPasswordEncoder();
-//
-//    public DoctorServiceImpl(DoctorRepo doctorRepo, BCryptPasswordEncoder encoder) {
-//        this.doctorRepo = doctorRepo;
-//        this.encoder = encoder;
-//    }
 
     private final DoctorRepo doctorRepo;
     private final PasswordEncoder encoder;
@@ -65,24 +56,17 @@ public class DoctorServiceImpl implements DoctorService{
         return this.mapToDoctorDto(doctor);
     }
 
-//    public Doctor findDoctorByEmail(String email) {
-//        return doctorRepo.findByEmail(email);
-//    }
-
-
-
-
     @Override
     public List<DoctorDto> findAllDoctors() {
         List<Doctor> doctors = doctorRepo.findAll();
         return doctors.stream()
                 .map(this::mapToDoctorDto)
                 .collect(Collectors.toList());
-//        return doctors;
     }
 
     private DoctorDto mapToDoctorDto(Doctor doctor){
         DoctorDto doctorDto = new DoctorDto();
+        doctorDto.setId(doctor.getId());
         doctorDto.setFirstName(doctor.getFirstName());
         doctorDto.setLastName(doctor.getLastName());
         doctorDto.setAge(doctor.getAge());

@@ -1,17 +1,10 @@
 package com.example.project.controller;
 
-//import ch.qos.logback.core.model.Model;
-import com.example.project.repo.DoctorRepo;
 import com.example.project.service.PatientService;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.ui.Model;
 import com.example.project.dtos.DoctorDto;
 import com.example.project.dtos.PatientDto;
-import com.example.project.entity.Doctor;
 import com.example.project.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +16,6 @@ public class AuthController {
 
     @Autowired
     private PatientService patientService;
-
-//    public AuthController(DoctorService doctorService, PatientService patientService) {
-//        this.doctorService = doctorService;
-//        this.patientService = patientService;
-//    }
 
     @GetMapping("/doctors")
     public List<DoctorDto> getDoctors() {
@@ -52,5 +40,10 @@ public class AuthController {
     public String savePatient(@RequestBody PatientDto patientDto) {
         patientService.savePatient(patientDto);
         return "saved patient";
+    }
+
+    @GetMapping("/find_patient_email/{email}")
+    public PatientDto findPatientByEmail(@PathVariable String email) {
+        return patientService.findPatientByEmail(email);
     }
 }

@@ -35,26 +35,27 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient findPatientByEmail(String email) {
-        return patientRepo.findByEmail(email);
+    public PatientDto findPatientByEmail(String email) {
+        return this.mapToPatientDto(patientRepo.findByEmail(email));
     }
 
     @Override
     public List<PatientDto> findAllPatients() {
         List<Patient> patients = patientRepo.findAll();
         return patients.stream()
-                .map((Patient) -> mapToPatientDto(Patient))
+                .map(this::mapToPatientDto)
                 .collect(Collectors.toList());
     }
 
     private PatientDto mapToPatientDto(Patient patient){
         PatientDto patientDto = new PatientDto();
+        patientDto.setId(patient.getId());
         patientDto.setFirstName(patient.getFirstName());
         patientDto.setLastName(patient.getLastName());
         patientDto.setAge(patient.getAge());
         patientDto.setGender(patient.getGender());
         patientDto.setEmail(patient.getEmail());
-        patientDto.setPassword(passwordEncoder.encode(patient.getPassword()));
+        patientDto.setPassword(patient.getPassword());
         return patientDto;
     }
 }

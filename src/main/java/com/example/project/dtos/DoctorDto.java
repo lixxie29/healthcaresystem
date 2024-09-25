@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DoctorDto {
+    private Long id;
 
     @NotEmpty
     private String firstName;
