@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="123_1" author="admin">
+
+        <insert tableName="doctor_specialty">
+            <column name="id" value="1"/>
+            <column name="name" value="Oncology"/>
+        </insert>
+        <insert tableName="doctor_specialty">
+            <column name="id" value="2"/>
+            <column name="name" value="Cardiology"/>
+        </insert>
+        <insert tableName="doctor_specialty">
+            <column name="id" value="3"/>
+            <column name="name" value="Neurology"/>
+        </insert>
+        <insert tableName="doctor_specialty">
+            <column name="id" value="4"/>
+            <column name="name" value="Pediatrics"/>
+        </insert>
+        <insert tableName="doctor_specialty">
+            <column name="id" value="5"/>
+            <column name="name" value="Dermatology"/>
+        </insert>
+        <rollback>
+            <delete tableName="doctor_specialty">
+                <where>id='1' or id='2' or id='3' or id='4' or id='5'
+                </where>
+            </delete>
+        </rollback>
+
+    </changeSet>
+</databaseChangeLog>
