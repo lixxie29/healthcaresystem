@@ -7,8 +7,6 @@ import com.example.project.repo.DoctorRepo;
 import com.example.project.repo.DoctorSpecialtyRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -62,22 +60,25 @@ public class DoctorServiceImpl implements DoctorService{
     }
 
     @Override
-    public Doctor findDoctorByEmail(String email) {
-        return doctorRepo.findByEmail(email);
+    public DoctorDto findDoctorByEmail(String email) {
+        Doctor doctor = doctorRepo.findByEmail(email);
+        return this.mapToDoctorDto(doctor);
     }
+
+//    public Doctor findDoctorByEmail(String email) {
+//        return doctorRepo.findByEmail(email);
+//    }
+
+
+
 
     @Override
     public List<DoctorDto> findAllDoctors() {
         List<Doctor> doctors = doctorRepo.findAll();
         return doctors.stream()
-                .map((Doctor) -> mapToDoctorDto(Doctor))
+                .map(this::mapToDoctorDto)
                 .collect(Collectors.toList());
 //        return doctors;
-    }
-
-    @Override
-    public List<Doctor> findDoctorsAll(){
-        return doctorRepo.findAll();
     }
 
     private DoctorDto mapToDoctorDto(Doctor doctor){
@@ -88,7 +89,8 @@ public class DoctorServiceImpl implements DoctorService{
         doctorDto.setGender(doctor.getGender());
         doctorDto.setHospitalName(doctor.getHospitalName());
         doctorDto.setEmail(doctor.getEmail());
-        doctorDto.setPassword(encoder.encode(doctor.getPassword()));
+        doctorDto.setPassword(doctor.getPassword());
+        doctorDto.setSpecialityId(doctor.getSpecialty().getId());
         return doctorDto;
     }
 }
