@@ -25,4 +25,6 @@ public class Patient {
     @OneToMany(mappedBy = "id")
     private List<Appointment> appointments;
 
+    @OneToMany(mappedBy = "id")
+    private List<Prescription> prescriptions;
 }

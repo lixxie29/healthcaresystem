@@ -8,4 +8,5 @@ public interface PatientService {
     void savePatient(PatientDto patientDto);
     PatientDto findPatientByEmail(String email);
     List<PatientDto> findAllPatients();
+    boolean authenticatePatient(String email, String password);
 }

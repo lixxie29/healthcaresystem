@@ -29,6 +29,10 @@ public class Prescription {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
+    @ManyToOne
+    @JoinColumn(name="patient_id")
+    private Patient patient;
+
     public void setSpanToBeConsumed(int months){
         this.spanToBeConsumed = Period.ofMonths(months);
     }

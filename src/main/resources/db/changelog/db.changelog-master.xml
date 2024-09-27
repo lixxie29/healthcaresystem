@@ -7,4 +7,5 @@
         <include file="2024/09/meds_changelog.xml" relativeToChangelogFile="true"/>
         <include file="2024/09/specialty_changelog.xml" relativeToChangelogFile="true"/>
         <include file="2024/09/alterdocpat_changelog.xml" relativeToChangelogFile="true"/>
+        <include file="2024/09/prescr_pat_changelog.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

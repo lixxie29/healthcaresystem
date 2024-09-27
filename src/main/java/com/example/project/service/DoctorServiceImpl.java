@@ -64,6 +64,12 @@ public class DoctorServiceImpl implements DoctorService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean authenticateDoctor(String email, String password) {
+        Doctor doctor = doctorRepo.findByEmail(email);
+        return doctor!=null && encoder.matches(password, doctor.getPassword());
+    }
+
     private DoctorDto mapToDoctorDto(Doctor doctor){
         DoctorDto doctorDto = new DoctorDto();
         doctorDto.setId(doctor.getId());

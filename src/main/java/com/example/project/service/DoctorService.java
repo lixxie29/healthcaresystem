@@ -8,4 +8,5 @@ public interface DoctorService {
     void saveDoctor(DoctorDto doctorDto);
     DoctorDto findDoctorByEmail(String email);
     List<DoctorDto> findAllDoctors();
+    boolean authenticateDoctor(String email, String password);
 }

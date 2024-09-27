@@ -2,6 +2,7 @@ package com.example.project.service;
 
 
 import com.example.project.dtos.PatientDto;
+import com.example.project.entity.Doctor;
 import com.example.project.entity.Patient;
 import com.example.project.repo.PatientRepo;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,6 +46,12 @@ public class PatientServiceImpl implements PatientService {
         return patients.stream()
                 .map(this::mapToPatientDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean authenticatePatient(String email, String password) {
+        Patient patient = patientRepo.findByEmail(email);
+        return patient!=null && passwordEncoder.matches(password, patient.getPassword());
     }
 
     private PatientDto mapToPatientDto(Patient patient){
