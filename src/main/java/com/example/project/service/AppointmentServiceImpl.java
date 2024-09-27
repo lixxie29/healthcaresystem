@@ -11,13 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private AppointmentRepo appointmentRepo;
+    @Autowired
     private DoctorRepo doctorRepo;
+    @Autowired
     private PatientRepo patientRepo;
 
 
@@ -85,6 +88,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
 
+    @Override
     public AppointmentDto findAppointmentById(Long id) {
         Appointment appointment = appointmentRepo.findById(id).orElseThrow(() -> new RuntimeException("Appointment not found"));
         return this.mapToAppointmentDto(appointment);
@@ -115,17 +119,29 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentDto> findAllAppointmentsByPatientId(Long patientId) {
-        return List.of();
+        List<Appointment> appointments = appointmentRepo.findAllByPatientId(patientId);
+
+        return appointments.stream()
+                .map(this::mapToAppointmentDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<AppointmentDto> findAllAppointmentsByDoctorId(Long doctorId) {
-        return List.of();
+        List<Appointment> appointments = appointmentRepo.findAllByDoctorId(doctorId);
+
+        return appointments.stream()
+                .map(this::mapToAppointmentDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<AppointmentDto> findAllAppointments() {
-        return List.of();
+        List<Appointment> appointments = appointmentRepo.findAll();
+
+        return appointments.stream()
+                .map(this::mapToAppointmentDto)
+                .collect(Collectors.toList());
     }
 
     private AppointmentDto mapToAppointmentDto(Appointment appointment) {

@@ -5,7 +5,10 @@ import com.example.project.entity.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AppointmentRepo extends JpaRepository<Appointment, Long> {
-    AppointmentDto updateAppointment(AppointmentDto appointmentDto, Long id);
+    List<Appointment> findAllByPatientId(Long patientId);
+    List<Appointment> findAllByDoctorId(Long doctorId);
 }

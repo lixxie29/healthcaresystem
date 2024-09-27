@@ -7,17 +7,58 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
 
+    @GetMapping("/appointments")
+    public List<AppointmentDto> getAllAppointments() {
+        return appointmentService.findAllAppointments();
+    }
+
+    @PostMapping("/create_appointment")
+    public String createAppointment(@RequestBody AppointmentDto appointmentDto) {
+        appointmentService.saveAppointment(appointmentDto);
+        return ">>> appointment created " + appointmentDto.toString();
+    }
+
+    @GetMapping("/find_appointment_by_id/{id}")
+    public ResponseEntity<AppointmentDto> findAppointmentById(@PathVariable Long id) {
+        AppointmentDto appointmentDto = appointmentService.findAppointmentById(id);
+        return new ResponseEntity<>(appointmentDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/appointments_per_doctor/{doctor_id}")
+    public ResponseEntity<String> findAppointmentsByDoctorId(@PathVariable Long doctor_id) {
+        try{
+            appointmentService.findAllAppointmentsByDoctorId(doctor_id);
+            return ResponseEntity.ok(">>> all appointments with given doctor_id found");
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/appointments_per_patient/{patient_id}")
+    public ResponseEntity<String> findAppointmentsByPatientId(@PathVariable Long patient_id) {
+        try{
+            appointmentService.findAllAppointmentsByPatientId(patient_id);
+            return ResponseEntity.ok(">>> all appointments with given patient_id found");
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/delete_appointment_by_patient/{appointment_id}")
     public ResponseEntity<String> deleteAppointmentByPatient(@PathVariable Long appointment_id, @RequestParam Long patient_id) {
         try{
             appointmentService.deleteAppointmentByPatient(appointment_id, patient_id);
-            return ResponseEntity.ok("Appointment deleted");
+            return ResponseEntity.ok(">>> deleted appointment by patient");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
@@ -27,7 +68,7 @@ public class AppointmentController {
     public ResponseEntity<String> deleteAppointmentByDoctor(@PathVariable Long appointment_id, @RequestParam Long doctor_id) {
         try{
             appointmentService.deleteAppointmentByDoctor(appointment_id, doctor_id);
-            return ResponseEntity.ok(">>> deleted appointment");
+            return ResponseEntity.ok(">>> deleted appointment by doctor");
         }
         catch(Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
@@ -55,16 +96,5 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
-
-
-    //    @GetMapping("/appointments")
-//    @GetMapping("/appointments_per_doctor/{doctor_id}")
-//    @GetMapping("/appointments_per_patient/{patient_id}")
-
-//    @PostMapping("/create_appointment") doctor_id + pat_id
-
-//    @PutMapping("/update_appointment_by_patient/{appointment_id}") patient_id
-
-//
 
 }

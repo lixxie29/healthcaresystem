@@ -30,7 +30,7 @@ public class AuthController {
     @PostMapping("/register_doctor")
     public String saveDoctor(@RequestBody DoctorDto doctorDto) {
         doctorService.saveDoctor(doctorDto);
-        return "saved doctor";
+        return ">>> registered doctor";
     }
 
     @GetMapping("/find_doctor_email/{email}")
@@ -44,7 +44,7 @@ public class AuthController {
     @PostMapping("/register_patient")
     public String savePatient(@RequestBody PatientDto patientDto) {
         patientService.savePatient(patientDto);
-        return "saved patient";
+        return ">>> registered patient";
     }
 
     @GetMapping("/find_patient_email/{email}")
@@ -56,7 +56,7 @@ public class AuthController {
     public ResponseEntity<String> loginDoctor(@RequestBody LoginDto loginDto) {
         boolean isAuthenticated = doctorService.authenticateDoctor(loginDto.getEmail(), loginDto.getPassword());
         if (isAuthenticated) {
-            return ResponseEntity.ok("login successful");
+            return ResponseEntity.ok(">>> login successful");
         }
         else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid email or password");
@@ -67,7 +67,7 @@ public class AuthController {
     public ResponseEntity<String> loginPatient(@RequestBody LoginDto loginDto) {
         boolean isAuthenticated = patientService.authenticatePatient(loginDto.getEmail(), loginDto.getPassword());
         if (isAuthenticated) {
-            return ResponseEntity.ok("login successful");
+            return ResponseEntity.ok(">>> login successful");
         }
         else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid email or password");
