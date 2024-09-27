@@ -12,8 +12,8 @@ public interface AppointmentService {
     boolean deleteAppointmentByPatient(Long appointmentId,Long patientId);
     boolean deleteAppointmentByDoctor(Long appointmentId, Long doctorId);
 
-    void updateAppointmentByPatient(Long appointmentId, Long patientId);
-    void updateAppointmentByDoctor(Long appointmentId, Long doctorId);
+    boolean updateAppointmentByPatient(AppointmentDto appointmentDto, Long patientId);
+    boolean updateAppointmentByDoctor(AppointmentDto appointmentDto, Long doctorId);
 
     List<AppointmentDto> findAllAppointmentsByPatientId(Long patientId);
     List<AppointmentDto> findAllAppointmentsByDoctorId(Long doctorId);

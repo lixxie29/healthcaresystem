@@ -41,7 +41,6 @@ public class DoctorServiceImpl implements DoctorService{
         doctor.setAge(doctorDto.getAge());
         doctor.setGender(doctorDto.getGender());
         doctor.setHospitalName(doctorDto.getHospitalName());
-        //doctor.setSpecialty(doctorDto.getSpeciality());
         doctor.setEmail(doctorDto.getEmail());
         doctor.setPassword(encoder.encode(doctorDto.getPassword()));
 

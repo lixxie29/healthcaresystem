@@ -21,11 +21,11 @@ public class AppointmentDto {
     @NotEmpty
     private String type;
     @NotEmpty
-    private int doctorId;
+    private Long doctorId;
     @NotEmpty
     private Date date;
     @NotEmpty
-    private int patientId;
+    private Long patientId;
     @NotEmpty
     private String hospitalName;
 }
