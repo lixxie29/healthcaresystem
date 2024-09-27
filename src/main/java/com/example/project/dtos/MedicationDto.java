@@ -1,32 +1,27 @@
 package com.example.project.dtos;
 
-import com.example.project.entity.Patient;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PrescriptionDto {
+public class MedicationDto {
     private Long id;
     @NotEmpty
-    private LocalDate dateCreated;
+    private String name;
     @NotEmpty
-    private Period spanToBeConsumed;
+    private String type;
     @NotEmpty
-    private boolean valid;
+    private String description;
     @NotEmpty
-    private List<Long> medicationIds;
+    private String dosage;
     @NotEmpty
-    private Long doctorId;
-    @NotEmpty
-    private Long patientId;
+    private List<Long> prescriptionIds;
 }

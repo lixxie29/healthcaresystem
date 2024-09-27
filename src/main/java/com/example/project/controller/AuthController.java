@@ -73,15 +73,6 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid email or password");
         }
     }
-
-
-
-//    @GetMapping("/prescriptions")
-//    @GetMapping("/prescriptions_per_doctor/{doctor_id}")
-//    @GetMapping("/prescriptions_per_patient/{patient_id}")
-//    @PostMapping("/create_prescription") doctor_id + pat_id
-
-
 //    @GetMapping("/medications") the id doesn't matter here because everyone can see meds
 
 }

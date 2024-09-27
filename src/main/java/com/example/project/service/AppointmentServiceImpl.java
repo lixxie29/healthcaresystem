@@ -25,6 +25,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 
     @Override
+    public AppointmentDto findAppointmentById(Long id) {
+        Appointment appointment = appointmentRepo.findById(id).orElseThrow(() -> new RuntimeException(">>> appointment not found"));
+        return this.mapToAppointmentDto(appointment);
+    }
+
+
+    @Override
     public void saveAppointment(AppointmentDto appointmentDto) {
         Appointment appointment = new Appointment();
         appointment.setId(appointmentDto.getId());
@@ -32,10 +39,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setDate(appointmentDto.getDate());
         appointment.setHospitalName(appointmentDto.getHospitalName());
 
-        Doctor doctor = doctorRepo.findById(appointmentDto.getDoctorId()).orElseThrow(() -> new RuntimeException("Doctor not found"));
+        Doctor doctor = doctorRepo.findById(appointmentDto.getDoctorId()).orElseThrow(() -> new RuntimeException(">>> doctor not found"));
         appointment.setDoctor(doctor);
 
-        Patient patient = patientRepo.findById(appointmentDto.getPatientId()).orElseThrow(() -> new RuntimeException("Patient not found"));
+        Patient patient = patientRepo.findById(appointmentDto.getPatientId()).orElseThrow(() -> new RuntimeException(">>> patient not found"));
         appointment.setPatient(patient);
 
         appointmentRepo.save(appointment);
@@ -46,22 +53,22 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public boolean updateAppointmentByDoctor(AppointmentDto appointmentDto, Long doctorId) {
         if(appointmentDto.getDoctorId().equals(doctorId)) {
-            Appointment appointment = appointmentRepo.findById(appointmentDto.getId()).orElseThrow(() -> new RuntimeException("Appointment not found"));
+            Appointment appointment = appointmentRepo.findById(appointmentDto.getId()).orElseThrow(() -> new RuntimeException(">>> appointment not found"));
             appointment.setType(appointmentDto.getType());
             appointment.setDate(appointmentDto.getDate());
             appointment.setHospitalName(appointmentDto.getHospitalName());
 
-            Doctor doctor = doctorRepo.findById(appointmentDto.getDoctorId()).orElseThrow(() -> new RuntimeException("Doctor not found"));
+            Doctor doctor = doctorRepo.findById(appointmentDto.getDoctorId()).orElseThrow(() -> new RuntimeException(">>> doctor not found"));
             appointment.setDoctor(doctor);
 
-            Patient patient = patientRepo.findById(appointmentDto.getPatientId()).orElseThrow(() -> new RuntimeException("Patient not found"));
+            Patient patient = patientRepo.findById(appointmentDto.getPatientId()).orElseThrow(() -> new RuntimeException(">>> patient not found"));
             appointment.setPatient(patient);
 
 
             appointmentRepo.save(appointment);
             return true;
         }
-        throw new RuntimeException("couldnt properly update appointment based on doctor_id");
+        throw new RuntimeException(">>> could not properly update appointment based on doctor_id");
     }
 
 
@@ -69,29 +76,21 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public boolean updateAppointmentByPatient(AppointmentDto appointmentDto, Long patientId) {
         if(appointmentDto.getPatientId().equals(patientId)) {
-            Appointment appointment = appointmentRepo.findById(appointmentDto.getId()).orElseThrow(() -> new RuntimeException("Appointment not found"));
+            Appointment appointment = appointmentRepo.findById(appointmentDto.getId()).orElseThrow(() -> new RuntimeException(">>> appointment not found"));
             appointment.setType(appointmentDto.getType());
             appointment.setDate(appointmentDto.getDate());
             appointment.setHospitalName(appointmentDto.getHospitalName());
 
-            Doctor doctor = doctorRepo.findById(appointmentDto.getDoctorId()).orElseThrow(() -> new RuntimeException("Doctor not found"));
+            Doctor doctor = doctorRepo.findById(appointmentDto.getDoctorId()).orElseThrow(() -> new RuntimeException(">>> doctor not found"));
             appointment.setDoctor(doctor);
 
-            Patient patient = patientRepo.findById(appointmentDto.getPatientId()).orElseThrow(() -> new RuntimeException("Patient not found"));
+            Patient patient = patientRepo.findById(appointmentDto.getPatientId()).orElseThrow(() -> new RuntimeException(">>> patient not found"));
             appointment.setPatient(patient);
-
 
             appointmentRepo.save(appointment);
             return true;
         }
-        throw new RuntimeException("couldnt properly update appointment based on patient_id");
-    }
-
-
-    @Override
-    public AppointmentDto findAppointmentById(Long id) {
-        Appointment appointment = appointmentRepo.findById(id).orElseThrow(() -> new RuntimeException("Appointment not found"));
-        return this.mapToAppointmentDto(appointment);
+        throw new RuntimeException(">>> could not properly update appointment based on patient_id");
     }
 
     @Override
@@ -102,7 +101,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointmentRepo.delete(appointment);
             return true;
         }
-        throw new RuntimeException("could not properly delete appointment based on patient_id");
+        throw new RuntimeException(">>> could not properly delete appointment based on patient_id");
     }
 
     @Override
@@ -113,9 +112,17 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointmentRepo.delete(appointment);
             return true;
         }
-        throw new RuntimeException("couldnt properly delete appointment based on doctor_id");
+        throw new RuntimeException(">>> could not properly delete appointment based on doctor_id");
     }
 
+    @Override
+    public List<AppointmentDto> findAllAppointments() {
+        List<Appointment> appointments = appointmentRepo.findAll();
+
+        return appointments.stream()
+                .map(this::mapToAppointmentDto)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<AppointmentDto> findAllAppointmentsByPatientId(Long patientId) {
@@ -129,15 +136,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<AppointmentDto> findAllAppointmentsByDoctorId(Long doctorId) {
         List<Appointment> appointments = appointmentRepo.findAllByDoctorId(doctorId);
-
-        return appointments.stream()
-                .map(this::mapToAppointmentDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<AppointmentDto> findAllAppointments() {
-        List<Appointment> appointments = appointmentRepo.findAll();
 
         return appointments.stream()
                 .map(this::mapToAppointmentDto)
