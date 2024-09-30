@@ -9,6 +9,7 @@ import com.example.project.repo.PrescriptionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         Prescription prescription = new Prescription();
         prescription.setId(prescriptionDto.getId());
         prescription.setDateCreated(prescriptionDto.getDateCreated());
+        prescription.setSpanToBeConsumed(prescriptionDto.getSpanToBeConsumed());
         prescription.setValid(prescriptionDto.isValid());
         prescription.setMedications(medicationService.findAllMedsByMedicationId(prescriptionDto.getMedicationIds()));
 
@@ -109,7 +111,9 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         PrescriptionDto prescriptionDto = new PrescriptionDto();
         prescriptionDto.setId(prescription.getId());
         prescriptionDto.setDateCreated(prescription.getDateCreated());
-        prescriptionDto.setSpanToBeConsumed(prescription.getSpanToBeConsumed());
+
+        prescriptionDto.setSpanToBeConsumed(prescription.getSpanToBeConsumed().getMonths());
+
         prescriptionDto.setValid(prescription.isValid());
         prescriptionDto.setMedicationIds(prescription.getMedications().stream().map(Medication::getId).collect(Collectors.toList()));
         prescriptionDto.setPatientId(prescription.getPatient().getId());

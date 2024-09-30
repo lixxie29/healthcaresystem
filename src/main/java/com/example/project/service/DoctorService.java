@@ -9,4 +9,6 @@ public interface DoctorService {
     DoctorDto findDoctorByEmail(String email);
     List<DoctorDto> findAllDoctors();
     boolean authenticateDoctor(String email, String password);
+    boolean deleteDoctor(Long id);
+    boolean updateDoctor(Long id, DoctorDto doctorDto);
 }

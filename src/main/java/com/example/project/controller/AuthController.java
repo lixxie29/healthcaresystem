@@ -73,6 +73,25 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid email or password");
         }
     }
-//    @GetMapping("/medications") the id doesn't matter here because everyone can see meds
 
+    @PutMapping("/update_doctor/{doctor_id}")
+    public ResponseEntity<String> updateDoctor(@PathVariable Long doctorId, @RequestBody DoctorDto doctorDto) {
+        try{
+            doctorService.updateDoctor(doctorId, doctorDto);
+            return ResponseEntity.ok(">>> updated doctor");
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/delete_doctor/{doctor_id}")
+    public ResponseEntity<String> deleteDoctor(@PathVariable Long doctorId) {
+        try{
+            doctorService.deleteDoctor(doctorId);
+            return ResponseEntity.ok(">>> deleted doctor");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
 }

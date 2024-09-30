@@ -20,7 +20,7 @@ public class PrescriptionDto {
     @NotEmpty
     private LocalDate dateCreated;
     @NotEmpty
-    private Period spanToBeConsumed;
+    private int spanToBeConsumed;
     @NotEmpty
     private boolean valid;
     @NotEmpty
@@ -29,4 +29,5 @@ public class PrescriptionDto {
     private Long doctorId;
     @NotEmpty
     private Long patientId;
+
 }

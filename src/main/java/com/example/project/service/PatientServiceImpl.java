@@ -5,6 +5,7 @@ import com.example.project.dtos.PatientDto;
 import com.example.project.entity.Doctor;
 import com.example.project.entity.Patient;
 import com.example.project.repo.PatientRepo;
+import jakarta.persistence.EntityExistsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,10 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void savePatient(PatientDto patientDto) {
+        if (patientRepo.findByEmail(patientDto.getEmail()) != null) {
+            throw new EntityExistsException(" >>> patient with this email already exists");
+        }
+
         Patient patient = new Patient();
         patient.setFirstName(patientDto.getFirstName());
         patient.setLastName(patientDto.getLastName());
