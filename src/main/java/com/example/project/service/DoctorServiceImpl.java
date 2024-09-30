@@ -81,7 +81,7 @@ public class DoctorServiceImpl implements DoctorService{
             doctorRepo.deleteById(id);
             return true;
         }
-        throw new EntityNotFoundException(" >>> could not properly delete doctor based on doctor_id");
+        throw new EntityNotFoundException(" >>> could not properly delete doctor, doctor not found");
     }
 
     @Override

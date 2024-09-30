@@ -9,4 +9,6 @@ public interface PatientService {
     PatientDto findPatientByEmail(String email);
     List<PatientDto> findAllPatients();
     boolean authenticatePatient(String email, String password);
+    boolean deletePatient(Long id);
+    boolean updatePatient(Long id, PatientDto patientDto);
 }

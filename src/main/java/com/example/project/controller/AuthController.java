@@ -21,6 +21,7 @@ public class AuthController {
     @Autowired
     private PatientService patientService;
 
+    // doctor functions mappings
 
     @GetMapping("/doctors")
     public List<DoctorDto> getDoctors() {
@@ -38,6 +39,43 @@ public class AuthController {
         return doctorService.findDoctorByEmail(email);
     }
 
+    @PostMapping("/login_doctor")
+    public ResponseEntity<String> loginDoctor(@RequestBody LoginDto loginDto) {
+        boolean isAuthenticated = doctorService.authenticateDoctor(loginDto.getEmail(), loginDto.getPassword());
+        if (isAuthenticated) {
+            return ResponseEntity.ok(">>> login successful");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid email or password");
+        }
+    }
+
+    @PutMapping("/update_doctor/{doctor_id}")
+    public ResponseEntity<String> updateDoctor(@PathVariable Long doctor_id, @RequestBody DoctorDto doctorDto) {
+        try{
+            doctorService.updateDoctor(doctor_id, doctorDto);
+            return ResponseEntity.ok(">>> updated doctor");
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/delete_doctor/{doctor_id}")
+    public ResponseEntity<String> deleteDoctor(@PathVariable Long doctor_id) {
+        try{
+            doctorService.deleteDoctor(doctor_id);
+            return ResponseEntity.ok(">>> deleted doctor");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+
+
+
+    // patient functions mappings
+
     @GetMapping("/patients")
     public List<PatientDto> getPatients() {return patientService.findAllPatients();}
 
@@ -52,17 +90,6 @@ public class AuthController {
         return patientService.findPatientByEmail(email);
     }
 
-    @PostMapping("/login_doctor")
-    public ResponseEntity<String> loginDoctor(@RequestBody LoginDto loginDto) {
-        boolean isAuthenticated = doctorService.authenticateDoctor(loginDto.getEmail(), loginDto.getPassword());
-        if (isAuthenticated) {
-            return ResponseEntity.ok(">>> login successful");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid email or password");
-        }
-    }
-
     @PostMapping("/login_patient")
     public ResponseEntity<String> loginPatient(@RequestBody LoginDto loginDto) {
         boolean isAuthenticated = patientService.authenticatePatient(loginDto.getEmail(), loginDto.getPassword());
@@ -74,24 +101,26 @@ public class AuthController {
         }
     }
 
-    @PutMapping("/update_doctor/{doctor_id}")
-    public ResponseEntity<String> updateDoctor(@PathVariable Long doctorId, @RequestBody DoctorDto doctorDto) {
+    @PutMapping("/update_patient/{patient_id}")
+    public ResponseEntity<String> updatePatient(@PathVariable Long patient_id, @RequestBody PatientDto patientDto) {
         try{
-            doctorService.updateDoctor(doctorId, doctorDto);
-            return ResponseEntity.ok(">>> updated doctor");
+            patientService.updatePatient(patient_id, patientDto);
+            return ResponseEntity.ok(">>> updated patient");
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 
-    @DeleteMapping("/delete_doctor/{doctor_id}")
-    public ResponseEntity<String> deleteDoctor(@PathVariable Long doctorId) {
+    @DeleteMapping("/delete_patient/{patient_id}")
+    public ResponseEntity<String> deletePatient(@PathVariable Long patient_id) {
         try{
-            doctorService.deleteDoctor(doctorId);
-            return ResponseEntity.ok(">>> deleted doctor");
-        } catch (Exception e) {
+            patientService.deletePatient(patient_id);
+            return ResponseEntity.ok(">>> deleted patient");
+        }
+        catch(Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
+
 }
