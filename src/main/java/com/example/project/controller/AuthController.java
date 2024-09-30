@@ -18,6 +18,7 @@ import java.util.List;
 public class AuthController {
     @Autowired
     private DoctorService doctorService;
+
     @Autowired
     private PatientService patientService;
 

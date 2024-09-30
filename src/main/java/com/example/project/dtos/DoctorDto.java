@@ -1,15 +1,13 @@
 package com.example.project.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class DoctorDto {
     private Long id;
 
@@ -29,7 +27,7 @@ public class DoctorDto {
     private String hospitalName;
 
     @NotEmpty
-    private Long specialityId;
+    private Long specialtyId;
 
     @NotEmpty
     private String email;

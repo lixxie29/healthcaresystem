@@ -11,6 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

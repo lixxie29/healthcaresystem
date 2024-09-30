@@ -51,7 +51,7 @@ public class DoctorServiceImpl implements DoctorService{
         doctor.setEmail(doctorDto.getEmail());
         doctor.setPassword(encoder.encode(doctorDto.getPassword()));
 
-        DoctorSpecialty specialty = doctorSpecialtyRepo.findById(doctorDto.getSpecialityId()).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
+        DoctorSpecialty specialty = doctorSpecialtyRepo.findById(doctorDto.getSpecialtyId()).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
         doctor.setSpecialty(specialty);
         doctorRepo.save(doctor);
     }
@@ -97,7 +97,7 @@ public class DoctorServiceImpl implements DoctorService{
             doctor.setEmail(doctorDto.getEmail());
             doctor.setPassword(encoder.encode(doctorDto.getPassword()));
 
-            DoctorSpecialty specialty = doctorSpecialtyRepo.findById(doctorDto.getSpecialityId()).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
+            DoctorSpecialty specialty = doctorSpecialtyRepo.findById(doctorDto.getSpecialtyId()).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
             doctor.setSpecialty(specialty);
             doctorRepo.save(doctor);
             return true;
@@ -115,7 +115,7 @@ public class DoctorServiceImpl implements DoctorService{
         doctorDto.setHospitalName(doctor.getHospitalName());
         doctorDto.setEmail(doctor.getEmail());
         doctorDto.setPassword(doctor.getPassword());
-        doctorDto.setSpecialityId(doctor.getSpecialty().getId());
+        doctorDto.setSpecialtyId(doctor.getSpecialty().getId());
         return doctorDto;
     }
 }

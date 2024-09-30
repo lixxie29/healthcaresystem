@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

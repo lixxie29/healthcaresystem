@@ -1,10 +1,7 @@
 package com.example.project.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,6 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @Setter
 @Getter
+@Builder
+@Table(name = "doctor")
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
