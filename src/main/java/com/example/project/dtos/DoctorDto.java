@@ -34,4 +34,5 @@ public class DoctorDto {
 
     @NotEmpty(message = "Password should not be empty")
     private String password;
+
 }

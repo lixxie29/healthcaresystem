@@ -74,7 +74,7 @@ public class DoctorRepoUnitTests {
     @Order(4)
     @Rollback(value = false)
     public void updateDoctorTest(){
-        Doctor doctor = doctorRepo.findById(1L).get();
+        Doctor doctor = doctorRepo.findById(1L).orElseThrow(() -> new EntityNotFoundException(" >>> doctor not found"));
         doctor.setFirstName("Alexandra");
         Doctor doctorUpdated = doctorRepo.save(doctor);
 
@@ -87,8 +87,8 @@ public class DoctorRepoUnitTests {
     @Order(5)
     @Rollback(value = false)
     public void deleteDoctorTest(){
-        doctorRepo.deleteById(1L);
-        Optional<Doctor> doctor = doctorRepo.findById(1L);
+        doctorRepo.deleteById(2L);
+        Optional<Doctor> doctor = doctorRepo.findById(2L);
 
         Assertions.assertThat(doctor).isEmpty();
     }
