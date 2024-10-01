@@ -30,9 +30,19 @@ public class DoctorController {
         return ResponseEntity.ok().build();  // Return HTTP 200 OK with no body
     }
 
+//    @GetMapping("/find_doctor_email/{email}")
+//    public DoctorDto findDoctorByEmail(@PathVariable String email) {
+//        return doctorService.findDoctorByEmail(email);
+//    }
+
     @GetMapping("/find_doctor_email/{email}")
-    public DoctorDto findDoctorByEmail(@PathVariable String email) {
-        return doctorService.findDoctorByEmail(email);
+    public ResponseEntity<DoctorDto> findDoctorByEmail(@PathVariable String email) {
+        DoctorDto doctorDto = doctorService.findDoctorByEmail(email);
+        if(doctorDto == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else{
+            return (ResponseEntity<DoctorDto>) ResponseEntity.ok(doctorDto);
+        }
     }
 
     @PostMapping("/login_doctor")
