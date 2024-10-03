@@ -24,6 +24,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -208,6 +209,16 @@ public class DoctorServiceUnitTests {
         // Assert: Verify that the update was successful
         assertThat(updatedDoctor.getEmail()).isEqualTo("max@gmail.com");
         assertThat(updatedDoctor.getFirstName()).isEqualTo("Max");
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("Service Test 5: Delete Doctor")
+    public void deleteDoctorTest() {
+        given(doctorRepo.existsById(doctor.getId())).willReturn(true);
+        willDoNothing().given(doctorRepo).deleteById(doctor.getId());
+        doctorService.deleteDoctor(doctorDto.getId());
+        verify(doctorRepo, times(1)).deleteById(doctor.getId());
     }
 
 
