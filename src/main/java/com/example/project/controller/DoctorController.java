@@ -26,14 +26,15 @@ public class DoctorController {
 
     @PostMapping("/register_doctor")
     public ResponseEntity<Void> saveDoctor(@RequestBody DoctorDto doctorDto) {
-        doctorService.saveDoctor(doctorDto);  // Void method call
-        return ResponseEntity.ok().build();  // Return HTTP 200 OK with no body
+        doctorService.saveDoctor(doctorDto);
+        return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("/find_doctor_email/{email}")
-//    public DoctorDto findDoctorByEmail(@PathVariable String email) {
-//        return doctorService.findDoctorByEmail(email);
-//    }
+    @GetMapping("/doctors/{id}")
+    public ResponseEntity<DoctorDto> findDoctorById(@PathVariable Long id) {
+        DoctorDto doctorDto = doctorService.findDoctorById(id);
+        return ResponseEntity.ok().body(doctorDto);
+    }
 
     @GetMapping("/find_doctor_email/{email}")
     public ResponseEntity<DoctorDto> findDoctorByEmail(@PathVariable String email) {

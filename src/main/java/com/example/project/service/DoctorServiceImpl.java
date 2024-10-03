@@ -21,18 +21,18 @@ public class DoctorServiceImpl implements DoctorService{
 
     private final DoctorRepo doctorRepo;
     private final PasswordEncoder encoder;
+    private final DoctorSpecialtyService specialtyService;
     private final DoctorSpecialtyRepo specialtyRepo;
 
     @Autowired
-    private DoctorSpecialtyService specialtyService;
-    @Autowired
-    private DoctorSpecialtyRepo doctorSpecialtyRepo;
-
-    // Use constructor injection for both dependencies
-    public DoctorServiceImpl(DoctorRepo doctorRepo, PasswordEncoder encoder, DoctorSpecialtyRepo specialtyRepo) {
+    public DoctorServiceImpl(DoctorRepo doctorRepo,
+                             PasswordEncoder encoder,
+                             DoctorSpecialtyRepo specialtyRepo,
+                             DoctorSpecialtyService specialtyService) {
         this.doctorRepo = doctorRepo;
         this.encoder = encoder;
         this.specialtyRepo = specialtyRepo;
+        this.specialtyService = specialtyService;
     }
 
 
@@ -51,15 +51,26 @@ public class DoctorServiceImpl implements DoctorService{
         doctor.setEmail(doctorDto.getEmail());
         doctor.setPassword(encoder.encode(doctorDto.getPassword()));
 
-        DoctorSpecialty specialty = doctorSpecialtyRepo.findById(doctorDto.getSpecialtyId()).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
+        DoctorSpecialty specialty = specialtyRepo.findById(doctorDto.getSpecialtyId()).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
         doctor.setSpecialty(specialty);
         doctorRepo.save(doctor);
+    }
+
+    public DoctorDto saveDoc(DoctorDto doctorDto) {
+        saveDoctor(doctorDto);
+        return doctorDto;
     }
 
     @Override
     public DoctorDto findDoctorByEmail(String email) {
         Doctor doctor = doctorRepo.findByEmail(email);
         return this.mapToDoctorDto(doctor);
+    }
+
+    @Override
+    public DoctorDto findDoctorById(Long id) {
+        Optional<Doctor> doctor = doctorRepo.findById(id);
+        return this.mapToDoctorDto(doctor.orElse(null));
     }
 
     @Override
@@ -97,7 +108,7 @@ public class DoctorServiceImpl implements DoctorService{
             doctor.setEmail(doctorDto.getEmail());
             doctor.setPassword(encoder.encode(doctorDto.getPassword()));
 
-            DoctorSpecialty specialty = doctorSpecialtyRepo.findById(doctorDto.getSpecialtyId()).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
+            DoctorSpecialty specialty = specialtyRepo.findById(doctorDto.getSpecialtyId()).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
             doctor.setSpecialty(specialty);
             doctorRepo.save(doctor);
             return true;
@@ -106,6 +117,12 @@ public class DoctorServiceImpl implements DoctorService{
     }
 
     private DoctorDto mapToDoctorDto(Doctor doctor){
+
+        if (doctor == null) {
+            System.out.println("Doctor object is null in mapToDoctorDto");
+            return null;
+        }
+
         DoctorDto doctorDto = new DoctorDto();
         doctorDto.setId(doctor.getId());
         doctorDto.setFirstName(doctor.getFirstName());
@@ -117,5 +134,22 @@ public class DoctorServiceImpl implements DoctorService{
         doctorDto.setPassword(doctor.getPassword());
         doctorDto.setSpecialtyId(doctor.getSpecialty().getId());
         return doctorDto;
+    }
+
+    private Doctor mapToDoctorEntity(DoctorDto doctorDto) {
+        Doctor doctor = new Doctor();
+        doctor.setFirstName(doctorDto.getFirstName());
+        doctor.setLastName(doctorDto.getLastName());
+        doctor.setAge(doctorDto.getAge());
+        doctor.setGender(doctorDto.getGender());
+        doctor.setHospitalName(doctorDto.getHospitalName());
+        doctor.setEmail(doctorDto.getEmail());
+        doctor.setPassword(encoder.encode(doctorDto.getPassword()));
+
+        DoctorSpecialty specialty = specialtyRepo.findById(doctorDto.getSpecialtyId())
+                .orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
+        doctor.setSpecialty(specialty);
+
+        return doctor;
     }
 }

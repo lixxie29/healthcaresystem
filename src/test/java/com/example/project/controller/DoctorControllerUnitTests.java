@@ -52,8 +52,6 @@ public class DoctorControllerUnitTests {
 
     @BeforeEach
     public void setUp() {
-//        Long specialtyId = 3L;
-//        DoctorSpecialty specialty = doctorSpecialtyRepo.findById(specialtyId).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
 
         DoctorSpecialty specialty = new DoctorSpecialty();
         specialty.setId(3L);
@@ -131,14 +129,30 @@ public class DoctorControllerUnitTests {
                 .andExpect(jsonPath("$.size()",is(doctorDtoList.size())));
     }
 
+    // get by id controller
+    @Test
+    @Order(3)
+    @DisplayName("Controller Test 3: Get Doctor By Id")
+    public void getDoctorByIdTest() throws Exception {
+        given(doctorService.findDoctorById(doctorDto.getId())).willReturn(doctorDto);
+
+        ResultActions response = mockMvc.perform(get("/doctors/" + doctorDto.getId()));
+
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.firstName",is(doctorDto.getFirstName())))
+                .andExpect(jsonPath("$.lastName",is(doctorDto.getLastName())))
+                .andExpect(jsonPath("$.email",is(doctorDto.getEmail())));
+    }
+
     // get by email controller
 
     @Test
-    @Order(3)
-    @DisplayName("Controller Test 3: Get Doctor By Email")
+    @Order(4)
+    @DisplayName("Controller Test 4: Get Doctor By Email")
     public void getDoctorByEmailTest() throws Exception {
         String email = "linda_m@undevamed.com";
-        given(doctorService.findDoctorByEmail(email)).willReturn(doctorDto); // Mocking the service call
+        given(doctorService.findDoctorByEmail(email)).willReturn(doctorDto);        // mocking service call
 
         ResultActions response = mockMvc.perform(get("/find_doctor_email/" + email));
 
@@ -154,8 +168,8 @@ public class DoctorControllerUnitTests {
 
 
     @Test
-    @Order(4)
-    @DisplayName("Controller Test 4: Update Doctor By Id")
+    @Order(5)
+    @DisplayName("Controller Test 5: Update Doctor By Id")
     public void updateDoctorByIdTest() throws Exception {
         Long doctorId = 1L;
         DoctorDto updatedDoctorDto = DoctorDto.builder()
@@ -181,8 +195,8 @@ public class DoctorControllerUnitTests {
 
     // delete doctor
     @Test
-    @Order(5)
-    @DisplayName("Controller Test 5: Delete Doctor By Id")
+    @Order(6)
+    @DisplayName("Controller Test 6: Delete Doctor By Id")
     public void deleteDoctorByIdTest() throws Exception {
         Long doctorId = 1L; // Hardcoded ID for the doctor you want to delete
 
