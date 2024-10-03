@@ -51,7 +51,7 @@ public class DoctorServiceImpl implements DoctorService{
         doctor.setEmail(doctorDto.getEmail());
         doctor.setPassword(encoder.encode(doctorDto.getPassword()));
 
-        DoctorSpecialty specialty = specialtyRepo.findById(doctorDto.getSpecialtyId()).orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
+        DoctorSpecialty specialty = specialtyRepo.findById(doctorDto.getSpecialtyId()).<EntityNotFoundException>orElseThrow(() -> new EntityNotFoundException(" >>> specialty not found"));
         doctor.setSpecialty(specialty);
         doctorRepo.save(doctor);
     }
@@ -99,7 +99,7 @@ public class DoctorServiceImpl implements DoctorService{
     @Override
     public boolean updateDoctor(Long doctorId, DoctorDto doctorDto) {
         if(doctorRepo.existsById(doctorId)) {
-            Doctor doctor = doctorRepo.findById(doctorId).orElseThrow();
+            Doctor doctor = doctorRepo.findById(doctorId).orElseThrow(() -> new EntityNotFoundException(" >>> Doctor not found for ID: " + doctorId));
             doctor.setFirstName(doctorDto.getFirstName());
             doctor.setLastName(doctorDto.getLastName());
             doctor.setAge(doctorDto.getAge());

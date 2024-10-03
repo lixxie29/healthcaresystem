@@ -11,16 +11,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class DoctorServiceUnitTests {
@@ -129,5 +133,82 @@ public class DoctorServiceUnitTests {
         assertThat(doctorList).isNotNull();
         assertThat(doctorList.size()).isGreaterThan(1);
     }
+
+    @Test
+    @Order(4)
+    @DisplayName("Service Test 4: Update Doctor")
+    public void updateDoctorTest() {
+        // Arrange: Create a DoctorSpecialty
+        DoctorSpecialty specialty = new DoctorSpecialty();
+        specialty.setId(1L);
+        specialty.setName("Oncology");
+
+        // Create a DoctorDto for the doctor to update
+        DoctorDto doctorDtoToUpdate = DoctorDto.builder()
+                .id(3L)
+                .firstName("Clint")
+                .lastName("Johnson")
+                .age(35)
+                .gender("male")
+                .hospitalName("Harborview Medical")
+                .specialtyId(1L)  // Ensure this matches the mocked specialty ID
+                .email("jclint@harborview.com")
+                .password("clint123")
+                .build();
+
+        // Mock the specialty repo to return the existing specialty
+        given(doctorSpecialtyRepo.findById(1L)).willReturn(Optional.of(specialty));
+
+        // Mock the behavior of finding a doctor by email
+        given(doctorRepo.findByEmail("jclint@harborview.com")).willReturn(null); // No existing doctor
+
+        // Mock the behavior of saving a doctor during the initial save
+        given(doctorRepo.save(any(Doctor.class))).willAnswer(invocation -> {
+            Doctor savedDoctor = invocation.getArgument(0);
+            savedDoctor.setId(3L); // Simulate that the doctor now has an ID after saving
+            return savedDoctor;
+        });
+
+        // Act: Save the initial doctor
+        doctorService.saveDoctor(doctorDtoToUpdate); // This ensures the doctor exists
+
+        // Prepare the doctor entity for update
+        Doctor doctorToUpdate = Doctor.builder()
+                .id(3L)
+                .firstName("Clint")
+                .lastName("Johnson")
+                .age(35)
+                .gender("male")
+                .hospitalName("Harborview Medical")
+                .email("jclint@harborview.com")
+                .specialty(specialty)
+                .password("encoded_clint123")
+                .build();
+
+        // Mock existsById to return true for the doctor's ID
+        given(doctorRepo.existsById(3L)).willReturn(true);
+
+        // Mock findById to return the saved doctor
+        given(doctorRepo.findById(3L)).willReturn(Optional.of(doctorToUpdate));
+
+        // Update the doctor's information in the DTO
+        doctorDtoToUpdate.setEmail("max@gmail.com");
+        doctorDtoToUpdate.setFirstName("Max");
+
+        // Act: Update the doctor
+        doctorService.updateDoctor(3L, doctorDtoToUpdate);
+
+        // Verify that save was called with the updated doctor
+        ArgumentCaptor<Doctor> doctorCaptor = ArgumentCaptor.forClass(Doctor.class);
+        verify(doctorRepo, times(2)).save(doctorCaptor.capture()); // save called during save and update
+
+        // Get the updated doctor from the captor
+        Doctor updatedDoctor = doctorCaptor.getValue();
+
+        // Assert: Verify that the update was successful
+        assertThat(updatedDoctor.getEmail()).isEqualTo("max@gmail.com");
+        assertThat(updatedDoctor.getFirstName()).isEqualTo("Max");
+    }
+
 
 }
