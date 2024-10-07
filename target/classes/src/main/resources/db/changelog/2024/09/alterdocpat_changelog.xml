@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="456_0" author="lixxie29">
+        <addColumn tableName="doctor">
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+        </addColumn>
+
+        <addColumn tableName="patient">
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+        </addColumn>
+
+        <addColumn tableName="appointment">
+            <column name="doctor" type="VARCHAR(255)"/>
+            <column name="patient" type="VARCHAR(255)"/>
+        </addColumn>
+
+        <addColumn tableName="prescription">
+            <column name="doctor" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
