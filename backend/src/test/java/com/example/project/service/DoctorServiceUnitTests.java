@@ -1,10 +1,11 @@
-package com.example.project.service;
+package java.com.example.project.service;
 
 import com.example.project.dtos.DoctorDto;
 import com.example.project.entity.Doctor;
 import com.example.project.entity.DoctorSpecialty;
 import com.example.project.repo.DoctorRepo;
 import com.example.project.repo.DoctorSpecialtyRepo;
+import com.example.project.service.DoctorServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,5 +1,6 @@
-package com.example.project.controller;
+package java.com.example.project.controller;
 
+import com.example.project.controller.DoctorController;
 import com.example.project.dtos.DoctorDto;
 import com.example.project.entity.Doctor;
 import com.example.project.entity.DoctorSpecialty;

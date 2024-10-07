@@ -1,7 +1,9 @@
-package com.example.project.repo;
+package java.com.example.project.repo;
 
 import com.example.project.entity.Doctor;
 import com.example.project.entity.DoctorSpecialty;
+import com.example.project.repo.DoctorRepo;
+import com.example.project.repo.DoctorSpecialtyRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.*;
 import org.assertj.core.api.Assertions;
@@ -20,9 +22,8 @@ import java.util.Optional;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DoctorRepoUnitTests {
 
-    @Autowired
     private DoctorRepo doctorRepo;
-    @Autowired
+
     private DoctorSpecialtyRepo doctorSpecialtyRepo;
 
     @Test
