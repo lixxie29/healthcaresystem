@@ -1,13 +1,13 @@
 import React from 'react';
-import DoctorList from './components/DoctorList';
-import RegisterDoctor from './components/RegisterDoctor';
+import DoctorList from './components/doctorList/DoctorList';
+import RegisterDoctor from './components/auth/RegisterDoctor';
 
 const App = () => {
   return (
       <div>
         <h1>Healthcare Management System</h1>
         <RegisterDoctor />
-        <DoctorList />
+        {/*<DoctorList />*/}
       </div>
   );
 };
